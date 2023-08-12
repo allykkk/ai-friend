@@ -51,7 +51,7 @@ const NewCharacterForm = ({dbDefinitions}) => {
     try {
       // 
       await axios.post("/api/character", values);
-      
+      router.refresh();
       router.push("/");
     } catch (error) {
       console.log(`Failed to submit with status code ${error.response.status} - ${error.response.data}`);
