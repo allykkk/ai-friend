@@ -25,8 +25,8 @@ model Character {
   src          String
   name         String?
   description  String
-  instructions String  @db.VarChar(10000)
-  seed         String  @db.VarChar(10000)
+  instructions String  @db.VarChar(1000)
+  seed         String  @db.VarChar(1000)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,6 +34,28 @@ model Character {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
+  messages Message[]
+
   @@index([categoryId])
   @@index([name])
+}
+
+enum Role {
+  user
+  system
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  role      Role
+  content   String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  characterId String
+  userId      String
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@index([characterId])
 }
