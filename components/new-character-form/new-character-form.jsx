@@ -49,10 +49,11 @@ const NewCharacterForm = ({dbDefinitions}) => {
   // Our onSubmit handler here
   const onSubmit = async (values) => {
     try {
-      var response = await axios.post("/api/character", values);
-      console.log("response is null? " + response == null);
+      // 
+      await axios.post("/api/character", values);
+      
+      router.push("/");
     } catch (error) {
-      console.log(error)
       console.log(`Failed to submit with status code ${error.response.status} - ${error.response.data}`);
     }
 

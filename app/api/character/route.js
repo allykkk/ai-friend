@@ -1,8 +1,6 @@
+import prismaDB from "@/lib/prisma-instance";
 import { currentUser } from "@clerk/nextjs";
-import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-
-const prismaDB = new PrismaClient();
 
 async function isCharacterExists(userId, name, categoryId) {
     const existingCharacter = await prismaDB.character.findFirst({
