@@ -28,12 +28,12 @@ NewCharacterForm is a pretty complex component. So I divided it into 3 different
     Main Component - Which should ideally hold only the business logic of our component. This is this file. 
 */
 
-const NewCharacterForm = ({dbDefinitions}) => {
+const NewCharacterForm = ({dbDefinitions, character}) => {
 
   // This is our form, it may have some default values...
   const form = useForm({
     resolver: GetResolver(),
-    defaultValues: {
+    defaultValues: character || {
       name: "",
       description: "",
       instructions: "",
@@ -42,7 +42,9 @@ const NewCharacterForm = ({dbDefinitions}) => {
       categoryId: undefined,
     },
   });
-  
+
+  const isEditMode = character != null;
+
   // Get hooks here, use in onSubmit
   const router = useRouter();
 
@@ -67,6 +69,7 @@ const NewCharacterForm = ({dbDefinitions}) => {
       preamble={PREAMBLE}
       seedChat={SEED_CHAT}
       databaseDefinitions={dbDefinitions}
+      isEditMode={isEditMode}
     />
   );
 };

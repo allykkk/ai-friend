@@ -24,7 +24,7 @@ const Navbar = () => {
               font.className
             )}
           >
-            AI-Friend-Generator
+            Friends.ai
           </h1>
         </Link>
       </div>

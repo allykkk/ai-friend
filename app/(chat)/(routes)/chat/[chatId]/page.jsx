@@ -7,10 +7,12 @@ import { ChatWindow } from "@/components/chat-window/chat-window";
 const ChatIdPage = async ({ params }) => {
   const { userId } = auth();
 
+  // If user is not authenticated - redirect them to sign in
   if (!userId) {
     return redirectToSignIn();
   }
 
+  // Find our character, and pass it to the ChatWindow UI component.
   const character = await prismaDB.character.findUnique({
     where: {
       id: params.chatId,
@@ -27,6 +29,7 @@ const ChatIdPage = async ({ params }) => {
     },
   });
 
+  // If no character is found, redirect to root.
   if (!character) {
     return redirect("/");
   }

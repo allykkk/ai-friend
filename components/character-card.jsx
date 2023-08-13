@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Card, CardHeader } from "./ui/card";
 import Link from "next/link";
+import { AlbumArtwork } from "./album-artwork";
 
 const CharacterCards = ({ data }) => {
   if (data.length === 0) {
@@ -15,33 +16,24 @@ const CharacterCards = ({ data }) => {
       </div>
     );
   }
+  console.log("Got data map?", data.map)
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 pb-10">
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 pb-10">
       {data.map((item) => (
-        <Card
-          key={item.id}
-          className="bg-primary/10 rounded-xl cursor-pointer hover:opacity-75 transition border-0"
-        >
-          <Link href={`/chat/${item.id}`}>
-            <CardHeader className="flex items-center justify-center text-center text-muted-foreground">
-              <div className="relative w-32 h-32">
-                <Image
-                  src={item.src}
-                  fill
-                  className="rounded-xl object-cover"
-                  alt="Character"
-                />
-              </div>
-              <p className="font-bold">{item.name}</p>
-              <p className="text-xs">{item.description}</p>
-            </CardHeader>
-          </Link>
-        </Card>
+        <Link className="space-y-3 w-[150px]" href={`/chat/${item.id}`}>
+          <AlbumArtwork
+            key={item.name}
+            album={item}
+            className="w-[150px]"
+            aspectRatio="square"
+            width={150}
+            height={150}
+          />
+        </Link>
       ))}
     </div>
   );
 };
-
 
 export default CharacterCards;

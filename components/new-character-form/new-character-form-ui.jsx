@@ -28,7 +28,7 @@ import ImageUpload from "../image-upload";
 // Icons
 import { Wand2 } from "lucide-react";
 
-const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefinitions }) => {
+const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefinitions, isEditMode }) => {
   const isLoading = form.formState.isSubmitting;
 
   return (
@@ -201,7 +201,7 @@ const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefini
           />
                     <div className="w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
-              Create
+              {isEditMode ? "Edit" : "Create"}
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
           </div>

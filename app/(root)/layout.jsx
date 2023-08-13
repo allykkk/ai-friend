@@ -8,11 +8,11 @@ const RootLayout = ({ children }) => {
   // Content
 
   return (
-    <div className="h-full bg-secondary">
+    <>
       <Navbar/>
-      <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0"><Sidebar/></div>
-      <main className="h-full md:pl-20 pt-16">{children}</main>
-    </div>
+      <asdie className="hidden md:block fixed inset-y-0 h-screen md:w-64 transition-transform"><Sidebar/></asdie>
+      <main className="bg-white min-h-100vh bg-secondary md:pl-64 pt-16">{children}</main>
+    </>
   );
 };
 
