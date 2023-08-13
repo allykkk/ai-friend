@@ -34,8 +34,11 @@ export async function POST(req) {
   // Extract the `messages` from the body of the request
   const { messages, instructions, seed, chatId, userId } = await req.json();
 
+  // Important change for shorter responses...
+  let betterInstructions = instructions + "\n!!IMPORTANT!! (((LIMIT YOUR RESPONSE TO 500 characters)))\n";
+
   // Convert instructions and seed into our prompt
-  const others = seedToMessages(instructions, seed);
+  const others = seedToMessages(betterInstructions, seed);
 
   // Add the instructions to the last 5 messages in the history
   const chatHistory = [...others, ...messages.slice(-5)];
@@ -47,12 +50,13 @@ export async function POST(req) {
     messages: chatHistory
   })
 
+  // Last message, hopefully this is the user's message
   let lastElement = chatHistory.slice(-1)[0];
 
   // Add the current user's message to the history
   await saveToDB(chatId, "user", userId, lastElement.content);
 
-  // Convert the response into a friendly text-stream
+  // Convert the response into a friendly text-stream. We use clone() to not consume the stream.
   const stream = OpenAIStream(response.clone(), {
     onCompletion: async (completion) => {
 
