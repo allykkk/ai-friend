@@ -21,6 +21,14 @@ const ChatMessage = ({ role, content, isLoading, src }) => {
     });
   };
 
+  let messageClass;
+  if (role === "user") {
+    messageClass = "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground";
+  } else {
+    messageClass = "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm bg-muted";
+
+  }
+
   return (
     <div
       className={cn(
@@ -28,16 +36,23 @@ const ChatMessage = ({ role, content, isLoading, src }) => {
         role === "user" && "justify-end"
       )}
     >
-        
-      <div className="rounded-md px-4 py-2 max-w-sm text-sm bg-primary/10">
+
+      <div className={messageClass}>
         {isLoading ? (
           <BeatLoader color={theme === "light" ? "black" : "white"} size={6} />
         ) : (
           <div>
-              {content.split("\n").map((i,key) => {
-                  return <p key={key}> {i}<br/></p>;
-              })}
-          </div>)}
+            {content.split("\n").map((i, key) => {
+              return (
+                <p key={key}>
+                  {" "}
+                  {i}
+                  <br />
+                </p>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Add button to copy AI message  */}

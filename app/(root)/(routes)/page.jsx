@@ -2,23 +2,17 @@ import CharacterCards from "@/components/character-card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import prismaDB from "@/lib/prisma-instance";
-import { currentUser } from "@clerk/nextjs";
-import { Link } from "lucide-react";
 
-export default async function Home({ searchParams }) {
-  const user = await currentUser();
+export default async function Home() {
   const charactersData = await prismaDB.character.findMany();
   let groupedCharacters = {};
 
   // Load each character into the grop in which it fits
   charactersData.forEach((charactersDatum) => {
-    console.log(charactersDatum.categoryId);
-
     if (groupedCharacters.hasOwnProperty(charactersDatum.categoryId)) {
       groupedCharacters[charactersDatum.categoryId].push(charactersDatum);
     } else {
       groupedCharacters[charactersDatum.categoryId] = [charactersDatum];
-      console.log(JSON.stringify(charactersDatum.category));
     }
   });
 
@@ -36,7 +30,7 @@ export default async function Home({ searchParams }) {
 
             {categories.map((category) => {
               return (
-                <TabsTrigger value={category.name} className="relative">
+                <TabsTrigger key={category.id} value={category.name} className="relative">
                   {category.name}
                 </TabsTrigger>
               );
@@ -62,7 +56,7 @@ export default async function Home({ searchParams }) {
             (element) => element.categoryId == category.id
           );
           return (
-            <TabsContent value={category.name}>
+            <TabsContent key={category.id} value={category.name}>
               <div className="mt-6 space-y-1">
                 <h2 className="text-2xl font-semibold tracking-tight">
                   Your {category.name}s

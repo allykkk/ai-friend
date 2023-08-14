@@ -6,13 +6,13 @@ const UserInputBox = ({ input, handleInputChange, handleSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border-t border-primary/10 py-4 flex items-center gap-x-2"
+      className="border-t py-4 flex items-center gap-x-2"
     >
       <Input
         value={input}
         onChange={handleInputChange}
         placeholder="Type a message"
-        className="flex-1 rounded-lg bg-primary/10"
+        className="flex-1 rounded-lg"
       />
       <Button variant="ghost">
         <SendHorizonal className="w-6 h-6" />
