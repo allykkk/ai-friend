@@ -20,8 +20,8 @@ export async function POST(req) {
         console.log("Current user is " + JSON.stringify(loggedInUser));
 
         // User is not logged in. Unauthenticated users are not allowed to create new characters.
-        if (!loggedInUser || !loggedInUser.id || !loggedInUser.firstName) {
-            return new NextResponse("Unauthorized, this user is not logged in", { status: 401 })
+        if (!loggedInUser || !loggedInUser.id) {
+            return new NextResponse(`Unauthorized, this user is not logged in. Got user: ${loggedInUser}`, { status: 401 })
         }
 
         // If any fields are missing, let's notify the user

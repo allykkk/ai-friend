@@ -5,12 +5,13 @@ import Link from "next/link";
 
 const AboutMe = () => {
   return (
-    <div className="h-full p-4  max-w-3xl mx-auto">
+    <div className="h-full p-4 max-w-3xl mx-auto">
       <div className="flex justify-center items-center flex-col space-y-6">
         <Image
           width={150}
           height={150}
           src="/avatar2.png"
+          alt="Avatar of app creator (that's me!)"
           className="border-slate-300 border-2 rounded-full"
         />
 
