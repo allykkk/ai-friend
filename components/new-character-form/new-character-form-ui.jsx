@@ -174,7 +174,7 @@ const NewCharacterFormUI = ({
                   />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail your character's backstory and relevant
+                  Describe in detail your character&apos;s backstory and relevant
                   details.
                 </FormDescription>
                 <FormMessage />
@@ -198,7 +198,7 @@ const NewCharacterFormUI = ({
                   />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail your character's backstory and relevant
+                  Describe in detail your character&apos;s backstory and relevant
                   details.
                 </FormDescription>
                 <FormMessage />
