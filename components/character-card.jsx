@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardHeader } from "./ui/card";
 import Link from "next/link";
-import { AlbumArtwork } from "./album-artwork";
+import AlbumArtwork from "./album-artwork";
 
 
 const CharacterCards = ({ data }) => {
@@ -21,20 +21,16 @@ const CharacterCards = ({ data }) => {
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 pb-10">
       {data.map((item) => (
-        <Link
-          key={item.id}
-          className="space-y-3"
-          href={`/chat/${item.id}`}
-        >
+
           <AlbumArtwork
-            key={item.name}
+            key={item.id}
             album={item}
             className="w-[200px]"
             aspectRatio="square"
             width={200}
             height={200}
           />
-        </Link>
+
       ))}
     </div>
   );

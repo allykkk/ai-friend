@@ -11,9 +11,7 @@ export const ChatWindow = ({ character, userId }) => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: `/api/chat/${character.id}`,
     body: {
-      instructions: character.instructions,
-      seed: character.seed,
-      chatId: character.id,
+      character: character,
       userId: userId,
     },
     initialMessages: character.messages,

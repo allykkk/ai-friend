@@ -29,16 +29,26 @@ async function saveToDB(chatId, role, userId, content) {
   });
 }
 
+async function getCharacter(chatId) {
+  return prismaDB.character.findFirst({
+    where: {
+      id: chatId
+    }
+  });
+}
+
 export async function POST(req) {
 
   // Extract the `messages` from the body of the request
-  const { messages, instructions, seed, chatId, userId } = await req.json();
+  const { messages, character, userId } = await req.json();
 
-  // Important change for shorter responses...
-  let betterInstructions = instructions + "\n!!IMPORTANT!! (((LIMIT YOUR RESPONSE TO 500 characters)))\n";
+  // We change the instructions here because we don't want to store all this information in the DB.
+  // Much better to add it per run.
+  let betterInstructions = `Your name is ${character.name}, ${character.description}. ` +
+    character.instructions + "\n!!IMPORTANT!! (((LIMIT YOUR RESPONSE TO 500 characters)))\n";
 
   // Convert instructions and seed into our prompt
-  const others = seedToMessages(betterInstructions, seed);
+  const others = seedToMessages(betterInstructions, character.seed);
 
   // Add the instructions to the last 5 messages in the history
   const chatHistory = [...others, ...messages.slice(-5)];
@@ -54,14 +64,14 @@ export async function POST(req) {
   let lastElement = chatHistory.slice(-1)[0];
 
   // Add the current user's message to the history
-  await saveToDB(chatId, "user", userId, lastElement.content);
+  await saveToDB(character.id, "user", userId, lastElement.content);
 
   // Convert the response into a friendly text-stream. We use clone() to not consume the stream.
   const stream = OpenAIStream(response.clone(), {
     onCompletion: async (completion) => {
 
       // Save the new message to the history
-      await saveToDB(chatId, "system", userId, completion.trim());
+      await saveToDB(character.id, "system", userId, completion.trim());
 
     },
   });

@@ -51,8 +51,12 @@ const NewCharacterForm = ({dbDefinitions, character}) => {
   // Our onSubmit handler here
   const onSubmit = async (values) => {
     try {
-      // 
-      await axios.post("/api/character", values);
+      if (!isEditMode) {
+        console.log("Got values", values)
+        await axios.post("/api/character", values);
+      } else {
+        await axios.patch(`/api/character/${character.id}`, values);
+      }
       router.refresh();
       router.push("/");
     } catch (error) {

@@ -2,15 +2,16 @@ import prismaDB from "@/lib/prisma-instance";
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-async function isCharacterExists(userId, name, categoryId) {
+async function isCharacterExists(characterId) {
     const existingCharacter = await prismaDB.character.findFirst({
-        where: { name, userId, categoryId }
+        where: { id: characterId }
     })
     return existingCharacter != null;
 }
 
-// POST: /api/character
-export async function POST(req) {
+
+// PATCH: /api/character
+export async function PATCH(req, { params }) {
     try {
         // Await the body of the request
         const body = await req.json();
@@ -29,12 +30,12 @@ export async function POST(req) {
             return new NextResponse("Missing required fields", { status: 400 })
         }
 
-        // If the character already exists, let's return an error
-        if (await isCharacterExists(loggedInUser.id, name, categoryId)) {
-            return new NextResponse("Character with this name already exists for this user in this category", { status: 409 })
+        if (!(await isCharacterExists(params.characterId))) {
+            return new NextResponse("Cannot patch a character that does not exist", { status: 404 })
         }
 
-        const character = await prismaDB.character.create({
+        const character = await prismaDB.character.update({
+            where: { id: params.characterId, userId: loggedInUser.id },
             data: {
                 categoryId,
                 userId: loggedInUser.id,
@@ -54,3 +55,27 @@ export async function POST(req) {
     }
 }
 
+export async function DELETE(req, { params }) {
+    try {
+        const loggedInUser = await currentUser();
+
+        // User is not logged in. Unauthenticated users are not allowed to create new characters.
+        if (!loggedInUser || !loggedInUser.id || !loggedInUser.firstName) {
+            return new NextResponse("Unauthorized, this user is not logged in", { status: 401 })
+        }
+
+        // If the character doesn't exist, let's return an error
+        if (!(await isCharacterExists(params.characterId))) {
+            return new NextResponse("Character does not exist, cannot delete", { status: 404 })
+        }
+
+        await prismaDB.character.delete({
+            where: { id: params.characterId }
+        })
+
+        return new NextResponse("OK!", { status: 200 })
+
+    } catch (error) {
+        return new NextResponse(error, { status: 500 })
+    }
+}

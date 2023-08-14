@@ -2,9 +2,15 @@ import CharacterCards from "@/components/character-card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import prismaDB from "@/lib/prisma-instance";
+import { auth } from "@clerk/nextjs";
 
 export default async function Home() {
-  const charactersData = await prismaDB.character.findMany();
+  const { userId } = auth();
+  const charactersData = await prismaDB.character.findMany({
+    where: {
+      userId
+    }
+  });
   let groupedCharacters = {};
 
   // Load each character into the grop in which it fits

@@ -10,7 +10,7 @@ const RootLayout = ({ children }) => {
   return (
     <>
       <Navbar/>
-      <asdie className="hidden md:block fixed inset-y-0 h-screen md:w-64 transition-transform"><Sidebar/></asdie>
+      <div className="hidden md:block fixed inset-y-0 h-screen md:w-64 transition-transform"><Sidebar/></div>
       <main className="bg-white min-h-100vh bg-secondary md:pl-64 pt-16">{children}</main>
     </>
   );
