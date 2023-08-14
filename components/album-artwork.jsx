@@ -15,7 +15,7 @@ import Link from "next/link";
 
 import axios from "axios";
 
-import { MoreVertical, MoreVerticalIcon } from "lucide-react";
+import { MoreVerticalIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import {

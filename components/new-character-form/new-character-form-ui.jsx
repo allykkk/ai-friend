@@ -28,23 +28,29 @@ import ImageUpload from "../image-upload";
 // Icons
 import { Wand2 } from "lucide-react";
 
-const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefinitions, isEditMode }) => {
+const NewCharacterFormUI = ({
+  form,
+  onSubmit,
+  preamble,
+  seedChat,
+  databaseDefinitions,
+  isEditMode,
+}) => {
   const isLoading = form.formState.isSubmitting;
 
   return (
     <div className="h-full p-4 space-y-2 max-w-3xl mx-auto">
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 pb-10"
-        >
-          <div className="space-y-2 w-full">
-            <div>
-              <h3 className="text-lg font-medium">General Information </h3>
-              <p>General Information about your Friend </p>
-            </div>
-            <Separator className="bg-primary/10" />
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="mt-6 space-y-1">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              General Information
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              General information about your friend
+            </p>
           </div>
+          <Separator className="my-4" />
 
           <FormField
             name="src"
@@ -142,21 +148,21 @@ const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefini
             />
           </div>
 
-          <div className="space-y-2 w-full">
-            <div>
-              <h3 className="text-lg font-medium">Configuration</h3>
-              <p className="text-sm text-muted-foreground">
-                Detailed instructions for AI behavior
-              </p>
-              <Separator className="bg-primary/10" />
-            </div>
+          <div className="mt-12 space-y-1">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Configuration
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Detailed instructions for AI behavior
+            </p>
           </div>
+          <Separator className="my-4" />
 
           <FormField
             name="instructions"
             control={form.control}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-6">
                 <FormLabel>Instructions</FormLabel>
                 <FormControl>
                   <Textarea
@@ -180,7 +186,7 @@ const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefini
             name="seed"
             control={form.control}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-6">
                 <FormLabel>Example Conversation</FormLabel>
                 <FormControl>
                   <Textarea
@@ -199,7 +205,7 @@ const NewCharacterFormUI = ({ form, onSubmit, preamble, seedChat, databaseDefini
               </FormItem>
             )}
           />
-                    <div className="w-full flex justify-center">
+          <div className="mt-6 w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
               {isEditMode ? "Edit" : "Create"}
               <Wand2 className="w-4 h-4 ml-2" />
