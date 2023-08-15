@@ -8,7 +8,10 @@ export default async function Home() {
   const { userId } = auth();
   const charactersData = await prismaDB.character.findMany({
     where: {
-      userId
+      OR: [
+        { userId },
+        { userId: "user_2TzI0QoVEEcAo3a0tpXkemi2N6U" }
+      ]
     }
   });
   let groupedCharacters = {};

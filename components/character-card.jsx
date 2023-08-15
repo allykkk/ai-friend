@@ -21,7 +21,7 @@ const CharacterCards = ({ data }) => {
   }
   
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 pb-10 ">
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 pb-10 ">
       {data.map((item) => (
 
           <AlbumArtwork
