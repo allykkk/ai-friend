@@ -32,7 +32,6 @@ const NewCharacterFormUI = ({
   form,
   onSubmit,
   preamble,
-  seedChat,
   databaseDefinitions,
   isEditMode,
 }) => {
@@ -174,8 +173,8 @@ const NewCharacterFormUI = ({
                   />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail your character&apos;s backstory and relevant
-                  details.
+                  Describe in detail your character&apos;s backstory and
+                  relevant details.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -185,25 +184,55 @@ const NewCharacterFormUI = ({
           <FormField
             name="seed"
             control={form.control}
-            render={({ field }) => (
+            render={({ field }) => {
+              console.log(form)
+              console.log(field)
+              return(
               <FormItem className="mt-6">
                 <FormLabel>Example Conversation</FormLabel>
                 <FormControl>
-                  <Textarea
-                    className="bg-background resize-none"
-                    rows={6}
-                    disabled={isLoading}
-                    placeholder={seedChat}
-                    {...field}
-                  />
+                  <div className="flex flex-col gap-y-4">
+                    <div className="flex flex-row gap-x-4">
+                      <span className="pt-2 basis-12">User:</span>
+                      <Textarea
+                        className="bg-background resize-none"
+                        disabled={isLoading}
+                        rows={4}
+                        placeholder="Hey, how's your day going?"
+                        value={field.value.userSeed}
+                        onChange={(event) =>
+                          field.onChange({
+                            ...field.value,
+                            userSeed: event.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="flex flex-row gap-x-4">
+                      <span className="pt-2 basis-12">Friend:</span>
+                      <Textarea
+                        className="bg-background resize-none"
+                        disabled={isLoading}
+                        rows={6}
+                        placeholder="Hey, how's your day going?"
+                        value={field.value.assistantSeed}
+                        onChange={(event) =>
+                          field.onChange({
+                            ...field.value,
+                            assistantSeed: event.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
                 </FormControl>
                 <FormDescription>
-                  Describe in detail your character&apos;s backstory and relevant
-                  details.
+                  Describe a simple conversation between you and your friend.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
-            )}
+            )}}
           />
           <div className="mt-6 w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>

@@ -27,17 +27,41 @@ NewCharacterForm is a pretty complex component. So I divided it into 3 different
     Utils - Which currently has only the resolver for the form. 
     Main Component - Which should ideally hold only the business logic of our component. This is this file. 
 */
+import { seedToMessages } from '@/lib/seed-to-messages'
+function getSeedFromCharacter(character) {
+
+  if (character == null) {
+    return {
+      userSeed: "",
+      assistantSeed: "",
+    }
+  }
+
+  const parsedSeed = seedToMessages("", character.seed);
+  return {
+    userSeed: parsedSeed[1].content,
+    assistantSeed: parsedSeed[2].content,
+  }
+  
+}
 
 const NewCharacterForm = ({dbDefinitions, character}) => {
 
   // This is our form, it may have some default values...
+  if (character) {
+    character.seed = getSeedFromCharacter(character);
+    console.log(character)
+  }
   const form = useForm({
     resolver: GetResolver(),
     defaultValues: character || {
       name: "",
       description: "",
       instructions: "",
-      seed: "",
+      seed: {
+        userSeed: "",
+        assistantSeed: "",
+      },
       src: "",
       categoryId: undefined,
     },
@@ -51,15 +75,20 @@ const NewCharacterForm = ({dbDefinitions, character}) => {
   // Our onSubmit handler here
   const onSubmit = async (values) => {
     try {
+
+      let sentData = values;
+      sentData.seed = `User: \`\`\`${values.seed.userSeed}\`\`\`\nAssistant: \`\`\`${values.seed.assistantSeed}\`\`\``;
+
       if (!isEditMode) {
-        console.log("Got values", values)
-        await axios.post("/api/character", values);
+        console.log("Got values", sentData)
+        await axios.post("/api/character", sentData);
       } else {
-        await axios.patch(`/api/character/${character.id}`, values);
+        await axios.patch(`/api/character/${character.id}`, sentData);
       }
       router.refresh();
       router.push("/");
     } catch (error) {
+      console.log(error);
       console.log(`Failed to submit with status code ${error.response.status} - ${error.response.data}`);
     }
 
@@ -71,7 +100,6 @@ const NewCharacterForm = ({dbDefinitions, character}) => {
       form={form}
       onSubmit={onSubmit}
       preamble={PREAMBLE}
-      seedChat={SEED_CHAT}
       databaseDefinitions={dbDefinitions}
       isEditMode={isEditMode}
     />
