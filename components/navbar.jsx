@@ -5,6 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import MobileSidebar from "@/components/mobile-sidebar";
+import Image from "next/image";
 
 const font = Poppins({
   weight: "600",
@@ -18,14 +19,8 @@ const Navbar = () => {
         <MobileSidebar />
 
         <Link href="/">
-          <h1
-            className={cn(
-              "hidden md:block text-xl md:text-3xl font-bold text-primary",
-              font.className
-            )}
-          >
-            Friends.ai
-          </h1>
+
+          <Image alt="Friends.ai app logo" width={150} height={100} className="hidden md:block text-xl md:text-3xl font-bold text-primary" src="/friends-ai.svg"/>
         </Link>
       </div>
 
