@@ -10,6 +10,7 @@ export const ChatWindow = ({ character, userId }) => {
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: `/api/chat/${character.id}`,
+    // body is the extra info we need to store the new messages to DB
     body: {
       character: character,
       userId: userId,

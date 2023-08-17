@@ -44,7 +44,7 @@ function getSeedFromCharacter(character) {
   }
   
 }
-
+// dbDefinitions is all the existing categories 
 const NewCharacterForm = ({dbDefinitions, character}) => {
 
   // This is our form, it may have some default values...

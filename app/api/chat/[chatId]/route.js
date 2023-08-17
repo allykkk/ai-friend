@@ -71,7 +71,7 @@ export async function POST(req) {
     onCompletion: async (completion) => {
 
       // Save the new message to the history
-      await saveToDB(character.id, "system", userId, completion.trim());
+      await saveToDB(character.id, "assistant", userId, completion.trim());
 
     },
   });

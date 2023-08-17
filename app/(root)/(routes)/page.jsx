@@ -25,7 +25,7 @@ export default async function Home() {
     }
   });
 
-  // TODO: Add "all" into categories somehow...
+  // fetch all categories for display 
   const categories = await prismaDB.category.findMany();
 
   return (
