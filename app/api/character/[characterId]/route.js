@@ -60,7 +60,7 @@ export async function DELETE(req, { params }) {
         const loggedInUser = await currentUser();
 
         // User is not logged in. Unauthenticated users are not allowed to create new characters.
-        if (!loggedInUser || !loggedInUser.id || !loggedInUser.firstName) {
+        if (!loggedInUser || !loggedInUser.id) {
             return new NextResponse("Unauthorized, this user is not logged in", { status: 401 })
         }
 
